@@ -21,6 +21,6 @@ import me.andre111.mambience.config.Config;
 public final class ConditionDisableWind extends Condition {
 	@Override
 	public boolean matches(MAPlayer player) {
-		return Config.ambientEvents().isDisableWind();
+		return Config.ambientEvents().disableWind();
 	}
 }

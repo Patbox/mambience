@@ -183,11 +183,17 @@ public final class Config {
 		public static final float DEFAULT_VOLUME = 0.4f;
 		public static final boolean DEFAULT_STOP_SOUNDS = false;
 		public static final boolean DEFAULT_DISABLE_WIND = false;
+		public static final boolean DEFAULT_TRIGGER_ATTACK_SOUNDS = true;
+		public static final boolean DEFAULT_TRIGGER_USE_SOUNDS = true;
+		public static final boolean DEFAULT_TRIGGER_HELD_ITEM_SOUNDS = true;
 		
 		private boolean enabled = DEFAULT_ENABLED;
 		private float volume = DEFAULT_VOLUME;
 		private boolean stopSounds = DEFAULT_STOP_SOUNDS;
 		private boolean disableWind = DEFAULT_DISABLE_WIND;
+		private boolean triggerAttackSounds = DEFAULT_TRIGGER_ATTACK_SOUNDS;
+		private boolean triggerUseSounds = DEFAULT_TRIGGER_USE_SOUNDS;
+		private boolean triggerHeldItemSounds = DEFAULT_TRIGGER_HELD_ITEM_SOUNDS;
 		
 		public boolean isEnabled() {
 			return enabled;
@@ -201,17 +207,35 @@ public final class Config {
 		public void setVolume(float volume) {
 			this.volume = volume;
 		}
-		public boolean isStopSounds() {
+		public boolean stopSounds() {
 			return stopSounds;
 		}
 		public void setStopSounds(boolean stopSounds) {
 			this.stopSounds = stopSounds;
 		}
-		public boolean isDisableWind() {
+		public boolean disableWind() {
 			return disableWind;
 		}
 		public void setDisableWind(boolean disableWind) {
 			this.disableWind = disableWind;
+		}
+		public boolean triggerAttackSounds() {
+			return triggerAttackSounds;
+		}
+		public void setTriggerAttackSounds(boolean triggerAttackSounds) {
+			this.triggerAttackSounds = triggerAttackSounds;
+		}
+		public boolean triggerUseSounds() {
+			return triggerUseSounds;
+		}
+		public void setTriggerUseSounds(boolean triggerUseSounds) {
+			this.triggerUseSounds = triggerUseSounds;
+		}
+		public boolean triggerHeldItemSounds() {
+			return triggerHeldItemSounds;
+		}
+		public void setTriggerHeldItemSounds(boolean triggerHeldItemSounds) {
+			this.triggerHeldItemSounds = triggerHeldItemSounds;
 		}
 	}
 	public static class EffectsConfig {

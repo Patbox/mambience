@@ -37,7 +37,7 @@ public final class ConditionEntities extends Condition {
 
 	@Override
 	public boolean matches(MAPlayer player) {
-		// cache actual block names
+		// cache actual entity names
 		if(cachedEntities == null) {
 			cachedEntities = new ArrayList<>();
 			if(entityOrTag.startsWith("#")) {

@@ -68,16 +68,31 @@ public class ConfigScreen implements ModMenuApi {
 						.setSaveConsumer(i -> { Config.ambientEvents().setVolume(i/100.0f); })
 						.build())
 				.addEntry(entryBuilder
-						.startBooleanToggle(Text.translatable("mambience.config.ambient.stop"), Config.ambientEvents().isStopSounds())
+						.startBooleanToggle(Text.translatable("mambience.config.ambient.stop"), Config.ambientEvents().stopSounds())
 						.setTooltip(Text.translatable("mambience.config.ambient.stop.tooltip"))
 						.setDefaultValue(Config.AmbientEventsConfig.DEFAULT_STOP_SOUNDS)
 						.setSaveConsumer(Config.ambientEvents()::setStopSounds)
 						.build())
 				.addEntry(entryBuilder
-						.startBooleanToggle(Text.translatable("mambience.config.ambient.disable_wind"), Config.ambientEvents().isDisableWind())
+						.startBooleanToggle(Text.translatable("mambience.config.ambient.disable_wind"), Config.ambientEvents().disableWind())
 						.setTooltip(Text.translatable("mambience.config.ambient.disable_wind.tooltip"))
 						.setDefaultValue(Config.AmbientEventsConfig.DEFAULT_DISABLE_WIND)
 						.setSaveConsumer(Config.ambientEvents()::setDisableWind)
+						.build())
+				.addEntry(entryBuilder
+						.startBooleanToggle(Text.translatable("mambience.config.ambient.trigger.attack"), Config.ambientEvents().triggerAttackSounds())
+						.setDefaultValue(Config.AmbientEventsConfig.DEFAULT_TRIGGER_ATTACK_SOUNDS)
+						.setSaveConsumer(Config.ambientEvents()::setTriggerAttackSounds)
+						.build())
+				.addEntry(entryBuilder
+						.startBooleanToggle(Text.translatable("mambience.config.ambient.trigger.use"), Config.ambientEvents().triggerUseSounds())
+						.setDefaultValue(Config.AmbientEventsConfig.DEFAULT_TRIGGER_USE_SOUNDS)
+						.setSaveConsumer(Config.ambientEvents()::setTriggerUseSounds)
+						.build())
+				.addEntry(entryBuilder
+						.startBooleanToggle(Text.translatable("mambience.config.ambient.trigger.held_item"), Config.ambientEvents().triggerHeldItemSounds())
+						.setDefaultValue(Config.AmbientEventsConfig.DEFAULT_TRIGGER_HELD_ITEM_SOUNDS)
+						.setSaveConsumer(Config.ambientEvents()::setTriggerHeldItemSounds)
 						.build());
 			
 			// Visual Effects

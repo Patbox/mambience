@@ -171,6 +171,18 @@ public class MAScheduler {
 	}
 	
 	public void triggerEvents(MAPlayer maplayer, String trigger) {
+		// do not trigger disabled events
+		if(!Config.ambientEvents().triggerAttackSounds()) {
+			if(trigger.equals(MATrigger.ATTACK_SWING)) return;
+			if(trigger.equals(MATrigger.ATTACK_BLOCK)) return;
+			if(trigger.equals(MATrigger.ATTACK_HIT)) return;
+		}
+		if(!Config.ambientEvents().triggerUseSounds()) {
+			if(trigger.equals(MATrigger.USE_ITEM_MAINHAND)) return;
+			if(trigger.equals(MATrigger.USE_ITEM_OFFHAND)) return;
+		}
+		
+		// trigger events
 		for(AmbientEvent event : EventLoader.getEvents(trigger)) {
 			event.update(maplayer);
 		}
