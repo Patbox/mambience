@@ -5,11 +5,12 @@
     "mambience.config.volume": "Volume Multiplier",
     
     "mambience.config.sizex": "Size X",
-    "mambience.config.sizex.tooltip": "Area centered around the player",
     "mambience.config.sizey": "Size Y",
-    "mambience.config.sizey.tooltip": "Area centered around the player",
     "mambience.config.sizez": "Size Z",
-    "mambience.config.sizez.tooltip": "Area centered around the player",
+    "mambience.config.entitysizex": "Entity Scan Size X",
+    "mambience.config.entitysizey": "Entity Scan Size Y",
+    "mambience.config.entitysizez": "Entity Scan Size Z",
+    "mambience.config.size.tooltip": "Area centered around the player",
     
     "mambience.config.general": "General",
     "mambience.config.general.note": "This configuration applies client-side only. When MAmbience is present on the server, the servers configuration will be used instead!",
@@ -32,7 +33,7 @@
     "mambience.config.footsteps.note": "This system plays more advanced footsteps based on player action. (e.g. jumping and landing sounds). Please disable this if you are using Presence Footsteps. For sound and material definitions see the included datapack.",
     
     "mambience.config.scanner": "Scanner",
-    "mambience.config.scanner.note": "Controll the size and intervall of checked blocks and biomes to determine effects in the other systems. Reducing the size can help performance for less accuracy.",
+    "mambience.config.scanner.note": "Control the size and interval of checked blocks, biomes and entities to determine effects in the other systems. Reducing the size can help performance for less accuracy.",
     "mambience.config.scanner.interval": "Interval in ticks",
     "mambience.config.scanner.interval.tooltip": "Controls the time between full surrounding scans"
 }

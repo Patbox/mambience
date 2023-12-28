@@ -21,14 +21,14 @@ import java.util.UUID;
 import me.andre111.mambience.accessor.Accessor;
 import me.andre111.mambience.config.Config;
 import me.andre111.mambience.footstep.Footsteps;
-import me.andre111.mambience.scan.BlockScanner;
+import me.andre111.mambience.scan.Scanner;
 import me.andre111.mambience.scan.Variables;
 import me.andre111.mambience.sound.SoundPlayer;
 
 public final class MAPlayer {
 	private final UUID playerUUID;
 	private final Accessor accessor;
-	private final BlockScanner scanner;
+	private final Scanner scanner;
 	private final Variables variables;
 	private final Footsteps footsteps;
 	private final SoundPlayer soundPlayer;
@@ -38,7 +38,7 @@ public final class MAPlayer {
 	public MAPlayer(UUID playerUUID, Accessor accessor, MALogger logger) {
 		this.playerUUID = playerUUID;
 		this.accessor = accessor;
-		this.scanner = new BlockScanner(accessor, Config.scanner().getSizeX(), Config.scanner().getSizeY(), Config.scanner().getSizeZ());
+		this.scanner = new Scanner(accessor, Config.scanner().getSizeX(), Config.scanner().getSizeY(), Config.scanner().getSizeZ(), Config.scanner().getEntitySizeX(), Config.scanner().getEntitySizeY(), Config.scanner().getEntitySizeZ());
 		this.variables = new Variables(accessor, scanner);
 		this.footsteps = new Footsteps(this);
 		this.soundPlayer = new SoundPlayer(accessor, logger);
@@ -52,7 +52,7 @@ public final class MAPlayer {
 	public Accessor getAccessor() {
 		return accessor;
 	}
-	public BlockScanner getScanner() {
+	public Scanner getScanner() {
 		return scanner;
 	}
 	public Variables getVariables() {

@@ -22,12 +22,12 @@ import me.andre111.mambience.accessor.Accessor;
 
 public final class Variables {
 	private final Accessor accessor;
-	private final BlockScanner scanner;
+	private final Scanner scanner;
 	
 	private final Map<String, Object> values = new HashMap<>();
 	private final Map<String, Object> previousValues = new HashMap<>();
 	
-	public Variables(Accessor a, BlockScanner s) {
+	public Variables(Accessor a, Scanner s) {
 		accessor = a;
 		scanner = s;
 	}

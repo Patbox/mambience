@@ -140,7 +140,7 @@ public class ConfigScreen implements ModMenuApi {
 				.addEntry(entryBuilder.startTextDescription(Text.translatable("mambience.config.scanner.note")).build())
 				.addEntry(entryBuilder
 						.startIntField(Text.translatable("mambience.config.sizex"), Config.scanner().getSizeX())
-						.setTooltip(Text.translatable("mambience.config.sizex.tooltip"))
+						.setTooltip(Text.translatable("mambience.config.size.tooltip"))
 						.setDefaultValue(Config.ScannerConfig.DEFAULT_SIZE_X)
 						.setMin(3)
 						.setMax(65)
@@ -148,7 +148,7 @@ public class ConfigScreen implements ModMenuApi {
 						.build())
 				.addEntry(entryBuilder
 						.startIntField(Text.translatable("mambience.config.sizey"), Config.scanner().getSizeY())
-						.setTooltip(Text.translatable("mambience.config.sizey.tooltip"))
+						.setTooltip(Text.translatable("mambience.config.size.tooltip"))
 						.setDefaultValue(Config.ScannerConfig.DEFAULT_SIZE_Y)
 						.setMin(3)
 						.setMax(65)
@@ -156,7 +156,7 @@ public class ConfigScreen implements ModMenuApi {
 						.build())
 				.addEntry(entryBuilder
 						.startIntField(Text.translatable("mambience.config.sizez"), Config.scanner().getSizeZ())
-						.setTooltip(Text.translatable("mambience.config.sizez.tooltip"))
+						.setTooltip(Text.translatable("mambience.config.size.tooltip"))
 						.setDefaultValue(Config.ScannerConfig.DEFAULT_SIZE_Z)
 						.setMin(3)
 						.setMax(65)
@@ -169,6 +169,30 @@ public class ConfigScreen implements ModMenuApi {
 						.setMin(1)
 						.setMax(200)
 						.setSaveConsumer(Config.scanner()::setInterval)
+						.build())
+				.addEntry(entryBuilder
+						.startIntField(Text.translatable("mambience.config.entitysizex"), Config.scanner().getEntitySizeX())
+						.setTooltip(Text.translatable("mambience.config.size.tooltip"))
+						.setDefaultValue(Config.ScannerConfig.DEFAULT_ENTITY_SIZE_X)
+						.setMin(3)
+						.setMax(65)
+						.setSaveConsumer(Config.scanner()::setEntitySizeX)
+						.build())
+				.addEntry(entryBuilder
+						.startIntField(Text.translatable("mambience.config.entitysizey"), Config.scanner().getEntitySizeY())
+						.setTooltip(Text.translatable("mambience.config.size.tooltip"))
+						.setDefaultValue(Config.ScannerConfig.DEFAULT_ENTITY_SIZE_Y)
+						.setMin(3)
+						.setMax(65)
+						.setSaveConsumer(Config.scanner()::setEntitySizeY)
+						.build())
+				.addEntry(entryBuilder
+						.startIntField(Text.translatable("mambience.config.entitysizez"), Config.scanner().getEntitySizeZ())
+						.setTooltip(Text.translatable("mambience.config.size.tooltip"))
+						.setDefaultValue(Config.ScannerConfig.DEFAULT_ENTITY_SIZE_Z)
+						.setMin(3)
+						.setMax(65)
+						.setSaveConsumer(Config.scanner()::setEntitySizeZ)
 						.build());
 
 			return builder.build();

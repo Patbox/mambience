@@ -53,6 +53,9 @@ public final class Parser {
 		case "BLOCK":
 			return new ConditionBlocks(namespaced(ConfigUtil.getString(obj, "blockOrTag", null)), ConfigUtil.getFloat(obj, "minPercentage", 0.001f));
 			
+		case "ENTITY":
+			return new ConditionEntities(namespaced(ConfigUtil.getString(obj, "entityOrTag", null)), ConfigUtil.getInt(obj, "minCount", 1));
+			
 		case "HELD_ITEM":
 			return new ConditionHeldItem(namespaced(ConfigUtil.getString(obj, "itemOrTag", null)), ConfigUtil.getBoolean(obj, "mainHand", true));
 			

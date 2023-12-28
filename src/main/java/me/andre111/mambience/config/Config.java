@@ -123,11 +123,17 @@ public final class Config {
 		public static final int DEFAULT_SIZE_Y = 9;
 		public static final int DEFAULT_SIZE_Z = 11;
 		public static final int DEFAULT_INTERVAL = 20;
+		public static final int DEFAULT_ENTITY_SIZE_X = 33;
+		public static final int DEFAULT_ENTITY_SIZE_Y = 17;
+		public static final int DEFAULT_ENTITY_SIZE_Z = 33;
 		
 		private int sizeX = DEFAULT_SIZE_X;
 		private int sizeY = DEFAULT_SIZE_Y;
 		private int sizeZ = DEFAULT_SIZE_X;
 		private int interval = DEFAULT_INTERVAL;
+		private int entitySizeX = DEFAULT_ENTITY_SIZE_X;
+		private int entitySizeY = DEFAULT_ENTITY_SIZE_Y;
+		private int entitySizeZ = DEFAULT_ENTITY_SIZE_Z;
 		
 		public int getSizeX() {
 			return sizeX;
@@ -152,6 +158,24 @@ public final class Config {
 		}
 		public void setInterval(int interval) {
 			this.interval = interval;
+		}
+		public int getEntitySizeX() {
+			return entitySizeX;
+		}
+		public void setEntitySizeX(int entitySizeX) {
+			this.entitySizeX = entitySizeX;
+		}
+		public int getEntitySizeY() {
+			return entitySizeY;
+		}
+		public void setEntitySizeY(int entitySizeY) {
+			this.entitySizeY = entitySizeY;
+		}
+		public int getEntitySizeZ() {
+			return entitySizeZ;
+		}
+		public void setEntitySizeZ(int entitySizeZ) {
+			this.entitySizeZ = entitySizeZ;
 		}
 	}
 	public static class AmbientEventsConfig {

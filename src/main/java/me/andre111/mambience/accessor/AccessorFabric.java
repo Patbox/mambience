@@ -19,12 +19,15 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 
 import me.andre111.mambience.MAmbience;
 import net.minecraft.block.BlockState;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -37,6 +40,7 @@ import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.tag.FluidTags;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Box;
 import net.minecraft.world.LightType;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.dimension.DimensionType;
@@ -182,6 +186,12 @@ public abstract class AccessorFabric extends Accessor {
 		Registry<Biome> registry = player.getEntityWorld().getRegistryManager().get(RegistryKeys.BIOME);
 		return player.getEntityWorld().getBiome(new BlockPos(x, y, z)).getKey().map(key -> registry.get(key).getTemperature()).orElse(0f);
 	}
+
+	@Override
+	public Stream<String> getEntities(double x, double y, double z, double xSize, double ySize, double zSize) {
+		List<Entity> entities = player.getEntityWorld().getOtherEntities(player, new Box(x-xSize/2.0, y-ySize/2.0, z-zSize/2.0, x+xSize/2, y+ySize/2, z+zSize/2));
+		return entities.stream().map(entity -> EntityType.getId(entity.getType()).toString());
+	}
 	
 	// Data related methods
 	@Override
@@ -197,6 +207,11 @@ public abstract class AccessorFabric extends Accessor {
 	@Override
 	public List<String> getItemTag(String name) {
 		return getTag(RegistryKeys.ITEM, name);
+	}
+	
+	@Override
+	public List<String> getEntityTag(String name) {
+		return getTag(RegistryKeys.ENTITY_TYPE, name);
 	}
 	
 	private <T> List<String> getTag(RegistryKey<? extends Registry<T>> key, String name) {
