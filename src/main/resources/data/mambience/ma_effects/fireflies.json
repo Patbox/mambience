@@ -1,7 +1,7 @@
 {
     "type": "fireflies",
     "parameters": [],
-    "block": "minecraft:grass",
+    "block": "minecraft:short_grass",
     "blockAbove": "",
     "blockBelow": "",
     "chance": 1,
