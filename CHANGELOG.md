@@ -1,11 +1,9 @@
 # CHANGELOG
 
-### v5.3.2+1.20.4
- - Fix refmap related crash on startup
+### v5.5.0+1.20.6
+ - Update to 1.20.6
+ - Fix Firefly Effect (Broken in 1.20.3 due to overlooked grass -> short_grass rename)
 
-### v5.3.1+1.20.4
- - Update to 1.20.4
-
-### v5.3.0+1.20.3
- - Update to 1.20.3
- - Note: Currently includes custom MODIFIED version of cloth config due to technical reasons.
+### v5.4.0+1.20.4
+ - Add ENTITY condition, currently unused in default data
+ - Add config settings to disable certain sound trigger types

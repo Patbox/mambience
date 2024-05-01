@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023 Andre Schweiger
+ * Copyright (c) 2024 Andre Schweiger
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -103,10 +103,8 @@ public class MAScheduler {
 				triggerEvents(maplayer, MATrigger.TICK);
 			}
 			
-			// update footsteps
-			if(Config.footsteps().isEnabled()) {
-				maplayer.getFootsteps().update();
-			}
+			// update movement
+			maplayer.getMovement().update();
 			
 			// update sound player
 			maplayer.getSoundPlayer().update();

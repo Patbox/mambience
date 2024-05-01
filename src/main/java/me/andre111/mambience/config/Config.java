@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023 Andre Schweiger
+ * Copyright (c) 2024 Andre Schweiger
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -39,7 +39,7 @@ public final class Config {
 	private ScannerConfig scanner = new ScannerConfig();
 	private AmbientEventsConfig ambientEvents = new AmbientEventsConfig();
 	private EffectsConfig effects = new EffectsConfig();
-	private FootstepConfig footsteps = new FootstepConfig();
+	private MovementConfig footsteps = new MovementConfig();
 	
 	public static boolean debugLogging() {
 		return instance.debugLogging;
@@ -60,7 +60,7 @@ public final class Config {
 		return instance.effects;
 	}
 	
-	public static FootstepConfig footsteps() {
+	public static MovementConfig movement() {
 		return instance.footsteps;
 	}
 	
@@ -282,18 +282,26 @@ public final class Config {
 			this.randomTicks = randomTicks;
 		}
 	}
-	public static class FootstepConfig {
-		public static final boolean DEFAULT_ENABLED = true;
+	public static class MovementConfig {
+		public static final boolean DEFAULT_FOOTSTEPS_ENABLED = true;
+		public static final boolean DEFAULT_ARMOR_ENABLED = true;
 		public static final float DEFAULT_VOLUME = 0.3f;
 		
-		private boolean enabled = DEFAULT_ENABLED;
+		private boolean footstepsEnabled = DEFAULT_FOOTSTEPS_ENABLED;
+		private boolean armorEnabled = DEFAULT_FOOTSTEPS_ENABLED;
 		private float volume = DEFAULT_VOLUME;
 		
-		public boolean isEnabled() {
-			return enabled;
+		public boolean footstepsEnabled() {
+			return footstepsEnabled;
 		}
-		public void setEnabled(boolean enabled) {
-			this.enabled = enabled;
+		public void setFootstepsEnabled(boolean footstepsEnabled) {
+			this.footstepsEnabled = footstepsEnabled;
+		}
+		public boolean armorEnabled() {
+			return armorEnabled;
+		}
+		public void setArmorEnabled(boolean armorEnabled) {
+			this.armorEnabled = armorEnabled;
 		}
 		public float getVolume() {
 			return volume;

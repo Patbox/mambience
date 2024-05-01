@@ -1062,7 +1062,9 @@
 		"minecraft:waxed_weathered_copper_bulb": "hardmetal",
 		"minecraft:waxed_oxidized_copper_bulb": "hardmetal",
 		"minecraft:crafter": "stonemachine,squeakywood",
-		"minecraft:trial_spawner": "hardmetal"
+		"minecraft:trial_spawner": "hardmetal",
+		"minecraft:vault": "hardmetal",
+		"minecraft:heavy_core": "hardmetal"
 	},
 	"armor": {
 		"minecraft:leather_boots": "armor_light",

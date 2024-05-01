@@ -32,8 +32,10 @@
     "mambience.config.effects.ticks": "Random Tick Count",
     "mambience.config.effects.ticks.tooltip": "Amount of blocks randomly checked per tick",
     
-    "mambience.config.footsteps": "Advanced Footsteps",
-    "mambience.config.footsteps.note": "This system plays more advanced footsteps based on player action. (e.g. jumping and landing sounds). Please disable this if you are using Presence Footsteps. For sound and material definitions see the included datapack.",
+    "mambience.config.movement": "Movement Sounds",
+    "mambience.config.movement.note": "This system plays more advanced footsteps based on player action. (e.g. jumping and landing sounds). Please disable this if you are using Presence Footsteps. For sound and material definitions see the included datapack.",
+    "mambience.config.movement.footsteps.enable": "Footsteps Enabled",
+    "mambience.config.movement.armor.enable": "Armor Sounds Enabled",
     
     "mambience.config.scanner": "Scanner",
     "mambience.config.scanner.note": "Control the size and interval of checked blocks, biomes and entities to determine effects in the other systems. Reducing the size can help performance for less accuracy.",

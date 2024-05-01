@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023 Andre Schweiger
+ * Copyright (c) 2024 Andre Schweiger
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -139,10 +139,10 @@ public class AccessorBukkit extends Accessor {
 		//TODO: this is a limited implementation that requires custom code for every type - can this be solved any better?
 		switch(type) {
 		case "minecraft:block":
-			player.spawnParticle(Particle.BLOCK_CRACK, x, y, z, 0, velocityX, velocityY, velocityZ, 1, Bukkit.createBlockData(parameters));
+			player.spawnParticle(Particle.BLOCK, x, y, z, 0, velocityX, velocityY, velocityZ, 1, Bukkit.createBlockData(parameters));
 			break;
 		case "minecraft:item":
-			player.spawnParticle(Particle.ITEM_CRACK, x, y, z, 0, velocityX, velocityY, velocityZ, 1, new ItemStack(Bukkit.createBlockData(parameters).getMaterial()));
+			player.spawnParticle(Particle.ITEM, x, y, z, 0, velocityX, velocityY, velocityZ, 1, new ItemStack(Bukkit.createBlockData(parameters).getMaterial()));
 			break;
 		case "minecraft:flame":
 			player.spawnParticle(Particle.FLAME, x, y, z, 0, velocityX, velocityY, velocityZ, 1);
@@ -151,7 +151,7 @@ public class AccessorBukkit extends Accessor {
 			player.spawnParticle(Particle.LAVA, x, y, z, 0, velocityX, velocityY, velocityZ, 1);
 			break;
 		case "minecraft:smoke":
-			player.spawnParticle(Particle.SMOKE_NORMAL, x, y, z, 0, velocityX, velocityY, velocityZ, 1);
+			player.spawnParticle(Particle.SMOKE, x, y, z, 0, velocityX, velocityY, velocityZ, 1);
 			break;
 		case "minecraft:end_rod":
 			player.spawnParticle(Particle.END_ROD, x, y, z, 0, velocityX, velocityY, velocityZ, 1);

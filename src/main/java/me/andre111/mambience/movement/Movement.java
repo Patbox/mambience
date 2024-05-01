@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023 Andre Schweiger
+ * Copyright (c) 2024 Andre Schweiger
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,16 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package me.andre111.mambience.footstep;
+package me.andre111.mambience.movement;
 
 import java.util.List;
 
 import me.andre111.mambience.MAPlayer;
 import me.andre111.mambience.accessor.Accessor;
+import me.andre111.mambience.config.Config;
 import me.andre111.mambience.data.loader.FootstepLoader;
 import me.andre111.mambience.sound.Sound;
 
-public class Footsteps {	
+public class Movement {	
 	private final MAPlayer player;
 	private final Accessor accessor;
 	
@@ -33,7 +34,7 @@ public class Footsteps {
 	
 	private boolean rightFoot;
 	
-	public Footsteps(MAPlayer player) {
+	public Movement(MAPlayer player) {
 		this.player = player;
 		this.accessor = player.getAccessor();
 	}
@@ -122,28 +123,32 @@ public class Footsteps {
 		double footY = accessor.getY() + yOffset;
 		double footZ = accessor.getZ() + Math.sin(rotation) * feetDistance;
 		
-		int footBlockX = (int) Math.floor(footX);
-		int footBlockY = (int) Math.floor(footY);
-		int footBlockZ = (int) Math.floor(footZ);
-		
 		// determine block / materials
-		//TODO: this might need more advanced "area" checking when walking on block edges
-		List<FSMaterial> materials = FootstepLoader.BLOCK_MAP.get(accessor.getBlock(footBlockX, footBlockY, footBlockZ));
-		if(isEmpty(materials)) materials = FootstepLoader.BLOCK_MAP.get(accessor.getBlock(footBlockX, footBlockY-1, footBlockZ));
-		if(materials == null) return;
-
-		playSounds(event, footX, footY, footZ, materials);
+		if(Config.movement().footstepsEnabled()) {
+			int footBlockX = (int) Math.floor(footX);
+			int footBlockY = (int) Math.floor(footY);
+			int footBlockZ = (int) Math.floor(footZ);
+			
+			//TODO: this might need more advanced "area" checking when walking on block edges
+			List<FSMaterial> materials = FootstepLoader.BLOCK_MAP.get(accessor.getBlock(footBlockX, footBlockY, footBlockZ));
+			if(isEmpty(materials)) materials = FootstepLoader.BLOCK_MAP.get(accessor.getBlock(footBlockX, footBlockY-1, footBlockZ));
+			if(materials == null) return;
+	
+			playSounds(event, footX, footY, footZ, materials);
+		}
 		
 		// determine armor materials
-		List<FSMaterial> armorMaterials = FootstepLoader.ARMOR_MAP.get(accessor.getArmor(2));
-		if(isEmpty(armorMaterials)) armorMaterials = FootstepLoader.ARMOR_MAP.get(accessor.getArmor(1));
-		List<FSMaterial> feetMaterials = FootstepLoader.ARMOR_MAP.get(accessor.getArmor(0));
-		
-		if(armorMaterials != null) {
-			playSounds(event, footX, footY, footZ, armorMaterials);
-		}
-		if(feetMaterials != null && !feetMaterials.equals(armorMaterials)) {
-			playSounds(event, footX, footY, footZ, feetMaterials);
+		if(Config.movement().armorEnabled()) {
+			List<FSMaterial> armorMaterials = FootstepLoader.ARMOR_MAP.get(accessor.getArmor(2));
+			if(isEmpty(armorMaterials)) armorMaterials = FootstepLoader.ARMOR_MAP.get(accessor.getArmor(1));
+			List<FSMaterial> feetMaterials = FootstepLoader.ARMOR_MAP.get(accessor.getArmor(0));
+			
+			if(armorMaterials != null) {
+				playSounds(event, footX, footY, footZ, armorMaterials);
+			}
+			if(feetMaterials != null && !feetMaterials.equals(armorMaterials)) {
+				playSounds(event, footX, footY, footZ, feetMaterials);
+			}
 		}
 	}
 	

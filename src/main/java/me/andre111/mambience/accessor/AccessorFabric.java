@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023 Andre Schweiger
+ * Copyright (c) 2024 Andre Schweiger
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,18 +26,19 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 
 import me.andre111.mambience.MAmbience;
 import net.minecraft.block.BlockState;
+import net.minecraft.command.argument.ParticleEffectArgumentType;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.particle.ParticleEffect;
-import net.minecraft.particle.ParticleType;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.tag.FluidTags;
+import net.minecraft.server.command.CommandManager;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
@@ -226,12 +227,22 @@ public abstract class AccessorFabric extends Accessor {
 	}
 	
 	protected abstract <T> List<Identifier> getTagEntries(RegistryKey<? extends Registry<T>> key, Identifier id);
-	
+
 	// helper method
-	@SuppressWarnings("deprecation")
-	protected <T extends ParticleEffect> T getParticleEffect(ParticleType<T> type, String parameters) {
+	protected ParticleEffect getParticleEffect(String type, String parameters) {
+		String name = type;
+		switch(type) {
+		case "minecraft:item":
+			name = name + "{item:\"" + parameters + "\"}";
+			break;
+		case "minecraft:block":
+			name = name + "{block_state:\"" + parameters + "\"}";
+			break;
+		}
+		
+		ParticleEffectArgumentType parser = new ParticleEffectArgumentType(CommandManager.createRegistryAccess(player.getEntityWorld().getRegistryManager())); 
 		try {
-			return type.getParametersFactory().read(type, new StringReader(parameters));
+			return parser.parse(new StringReader(name));
 		} catch (CommandSyntaxException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

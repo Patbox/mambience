@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023 Andre Schweiger
+ * Copyright (c) 2024 Andre Schweiger
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -126,7 +126,7 @@ public class FootstepBlockMapGenerator {
 		Registries.BLOCK.forEach(block -> {
 			String id = Registries.BLOCK.getId(block).toString();
 			if(!FootstepLoader.BLOCK_MAP.containsKey(id)) {
-				String type = DEFAULT_SOUND_MAP.get(block.getSoundGroup(block.getDefaultState()));
+				String type = DEFAULT_SOUND_MAP.get(block.getDefaultState().getSoundGroup());
 				MAmbience.getLogger().error("\""+id+"\" is missing a footstep type entry - suggested: \""+type+"\"");
 			}
 		});

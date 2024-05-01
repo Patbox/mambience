@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023 Andre Schweiger
+ * Copyright (c) 2024 Andre Schweiger
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@ import java.io.File;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import io.netty.buffer.Unpooled;
+import io.netty.buffer.ByteBuf;
 import me.andre111.mambience.accessor.AccessorFabricClient;
 import me.andre111.mambience.accessor.AccessorFabricServer;
 import me.andre111.mambience.fabric.ClientsideDataLoader;
@@ -34,12 +34,15 @@ import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.event.player.AttackBlockCallback;
 import net.fabricmc.fabric.api.event.player.AttackEntityCallback;
 import net.fabricmc.fabric.api.event.player.UseItemCallback;
+import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.networking.v1.S2CPlayChannelEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.minecraft.item.ItemStack;
-import net.minecraft.network.PacketByteBuf;
+import net.minecraft.network.codec.PacketCodec;
+import net.minecraft.network.codec.PacketCodecs;
+import net.minecraft.network.packet.CustomPayload;
 import net.minecraft.resource.ResourceType;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -52,6 +55,21 @@ public class MAmbienceFabric implements ModInitializer, ClientModInitializer {
 	public static final Logger LOGGER = LogManager.getLogger();
 	public static final Identifier CHANNEL = new Identifier("mambience", "server");
 	public static final MAmbienceResourceReloadListener RELOAD_LISTENER = new MAmbienceResourceReloadListener();
+	
+	public static record CPMAmbiance(boolean enabled) implements CustomPayload {
+		public static final Id<CPMAmbiance> ID = new Id<>(CHANNEL);
+		public static final PacketCodec<ByteBuf, CPMAmbiance> CODEC = PacketCodecs.BOOL.xmap(CPMAmbiance::new, CPMAmbiance::enabled);
+		
+		static {
+			PayloadTypeRegistry.playC2S().register(ID, CODEC);
+			PayloadTypeRegistry.playS2C().register(ID, CODEC);
+		}
+		
+		@Override
+		public Id<? extends CustomPayload> getId() {
+			return ID;
+		}
+	}
 
 	public static MinecraftServer server;
 	public static MAmbienceFabric instance;
@@ -129,9 +147,7 @@ public class MAmbienceFabric implements ModInitializer, ClientModInitializer {
 			
 			// -> send notify payload of server side presence (mambience:server channel with "enabled" message)
 			if(channels.contains(CHANNEL)) {
-				PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
-				buf.writeBytes("enabled".getBytes());
-				ServerPlayNetworking.send(handler.getPlayer(), CHANNEL, buf);
+				ServerPlayNetworking.send(handler.getPlayer(), new CPMAmbiance(true));
 			}
 		});
 	}
@@ -167,8 +183,8 @@ public class MAmbienceFabric implements ModInitializer, ClientModInitializer {
 			}
 		});
 		// this also automatically causes the fabric API to register the channel at the server thus notifying it of client side mod presence
-		ClientPlayNetworking.registerGlobalReceiver(CHANNEL, (client, handler, buf, responseSender) -> {
-			if(client.isIntegratedServerRunning()) return;
+		ClientPlayNetworking.registerGlobalReceiver(CPMAmbiance.ID, (payload, context) -> {
+			if(context.client().isIntegratedServerRunning()) return;
 			
 			// server has mod presence -> disable client side processing
 			MAmbience.getLogger().log("Server reported MAmbience present: disabled client side processing");

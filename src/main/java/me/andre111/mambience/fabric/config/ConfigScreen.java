@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023 Andre Schweiger
+ * Copyright (c) 2024 Andre Schweiger
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -137,17 +137,22 @@ public class ConfigScreen implements ModMenuApi {
 						.build());
 			
 			// Footsteps
-			builder.getOrCreateCategory(Text.translatable("mambience.config.footsteps"))
-				.addEntry(entryBuilder.startTextDescription(Text.translatable("mambience.config.footsteps.note")).build())
+			builder.getOrCreateCategory(Text.translatable("mambience.config.movement"))
+				.addEntry(entryBuilder.startTextDescription(Text.translatable("mambience.config.movement.note")).build())
 				.addEntry(entryBuilder
-						.startBooleanToggle(Text.translatable("mambience.config.enable"), Config.footsteps().isEnabled())
-						.setDefaultValue(Config.FootstepConfig.DEFAULT_ENABLED)
-						.setSaveConsumer(Config.footsteps()::setEnabled)
+						.startBooleanToggle(Text.translatable("mambience.config.movement.footsteps.enable"), Config.movement().footstepsEnabled())
+						.setDefaultValue(Config.MovementConfig.DEFAULT_FOOTSTEPS_ENABLED)
+						.setSaveConsumer(Config.movement()::setFootstepsEnabled)
 						.build())
 				.addEntry(entryBuilder
-						.startIntSlider(Text.translatable("mambience.config.volume"), (int) (Config.footsteps().getVolume()*100), 0, 100)
-						.setDefaultValue((int) (Config.FootstepConfig.DEFAULT_VOLUME*100))
-						.setSaveConsumer(i -> { Config.footsteps().setVolume(i/100.0f); })
+						.startBooleanToggle(Text.translatable("mambience.config.movement.armor.enable"), Config.movement().armorEnabled())
+						.setDefaultValue(Config.MovementConfig.DEFAULT_ARMOR_ENABLED)
+						.setSaveConsumer(Config.movement()::setArmorEnabled)
+						.build())
+				.addEntry(entryBuilder
+						.startIntSlider(Text.translatable("mambience.config.volume"), (int) (Config.movement().getVolume()*100), 0, 100)
+						.setDefaultValue((int) (Config.MovementConfig.DEFAULT_VOLUME*100))
+						.setSaveConsumer(i -> { Config.movement().setVolume(i/100.0f); })
 						.build());
 			
 			// Scanner
@@ -209,7 +214,7 @@ public class ConfigScreen implements ModMenuApi {
 						.setMax(65)
 						.setSaveConsumer(Config.scanner()::setEntitySizeZ)
 						.build());
-
+			
 			return builder.build();
 		};
 	}

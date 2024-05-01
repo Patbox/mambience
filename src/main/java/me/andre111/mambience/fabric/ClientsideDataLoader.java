@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023 Andre Schweiger
+ * Copyright (c) 2024 Andre Schweiger
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -67,7 +67,7 @@ public class ClientsideDataLoader {
 		
 		// scan for and enable all packs
 		packManager.scanPacks();
-		packManager.setEnabledProfiles(packManager.getNames());
+		packManager.setEnabledProfiles(packManager.getIds());
 		
 		// create actual resource manager
 		LifecycledResourceManagerImpl resourceManager = new LifecycledResourceManagerImpl(ResourceType.SERVER_DATA, packManager.createResourcePacks());
