@@ -312,7 +312,7 @@ public final class Config {
 			this.volume = volume;
 		}
 
-		public boolean isApplyingSuggested() {
+		public boolean applySuggested() {
 			return applySuggestedSounds;
 		}
 		public void setApplySuggested(boolean enabled) {

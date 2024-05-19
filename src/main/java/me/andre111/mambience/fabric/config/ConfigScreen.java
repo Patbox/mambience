@@ -155,9 +155,9 @@ public class ConfigScreen implements ModMenuApi {
 						.setSaveConsumer(i -> { Config.movement().setVolume(i/100.0f); })
 						.build())
 				.addEntry(entryBuilder
-						.startBooleanToggle(Text.translatable("mambience.config.apply_suggested"), Config.footsteps().isApplyingSuggested())
-						.setDefaultValue(Config.FootstepConfig.DEFAULT_APPLY_SUGGESTIONS)
-						.setSaveConsumer(Config.footsteps()::setApplySuggested)
+						.startBooleanToggle(Text.translatable("mambience.config.apply_suggested"), Config.movement().applySuggested())
+						.setDefaultValue(Config.MovementConfig.DEFAULT_APPLY_SUGGESTIONS)
+						.setSaveConsumer(Config.movement()::setApplySuggested)
 						.build());
 			
 			// Scanner
