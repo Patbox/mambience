@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023 Andre Schweiger
+ * Copyright (c) 2024 Andre Schweiger
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,6 +21,6 @@ import me.andre111.mambience.config.Config;
 public final class ConditionDisableWind extends Condition {
 	@Override
 	public boolean matches(MAPlayer player) {
-		return Config.ambientEvents().isDisableWind();
+		return Config.ambientEvents().disableWind();
 	}
 }

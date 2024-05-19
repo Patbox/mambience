@@ -1,0 +1,20 @@
+{
+    "sound": {
+        "name": "minecraft:block.note_block.banjo",
+        "volume": 100,
+        "pitchMin": 200,
+        "pitchMax": 200
+    },
+    "trigger": "SECOND",
+    "conditions": [
+        {
+            "condition": "VARIABLE",
+            "variable": "health",
+            "minValue": 0,
+            "maxValue": 2
+        }
+    ],
+    "restrictions": [],
+    "cooldownMin": 0,
+    "cooldownMax": 0
+}

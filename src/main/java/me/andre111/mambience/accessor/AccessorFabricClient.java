@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023 Andre Schweiger
+ * Copyright (c) 2024 Andre Schweiger
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,8 +25,6 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.sound.PositionedSoundInstance;
 import net.minecraft.client.sound.SoundInstance;
 import net.minecraft.particle.ParticleEffect;
-import net.minecraft.particle.ParticleType;
-import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.entry.RegistryEntryList.Named;
@@ -74,8 +72,7 @@ public class AccessorFabricClient extends AccessorFabric {
 	public void addParticle(String type, String parameters, double x, double y, double z, double velocityX, double velocityY, double velocityZ) {
 		if(MinecraftClient.getInstance().world == null) return;
 		
-		ParticleType<?> ptype = Registries.PARTICLE_TYPE.get(new Identifier(type));
-		ParticleEffect particle = getParticleEffect(ptype, " "+parameters);
+		ParticleEffect particle = getParticleEffect(type, parameters);
 		if(particle != null) {
 			MinecraftClient.getInstance().world.addParticle(particle, x, y, z, velocityX, velocityY, velocityZ);
 		}

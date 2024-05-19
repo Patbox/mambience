@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023 Andre Schweiger
+ * Copyright (c) 2024 Andre Schweiger
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,7 +22,7 @@ import com.google.gson.JsonObject;
 
 import me.andre111.mambience.config.Config;
 import me.andre111.mambience.config.ConfigUtil;
-import me.andre111.mambience.footstep.FSMaterial;
+import me.andre111.mambience.movement.FSMaterial;
 import me.andre111.mambience.sound.Sound;
 
 public final class MaterialLoader {
@@ -38,11 +38,11 @@ public final class MaterialLoader {
 	}
 	
 	private static FSMaterial loadMaterialInternal(String id, JsonObject obj) {
-		Sound[] wanderSounds = ConfigUtil.loadSounds(obj.get("wander"), Config.footsteps().getVolume());
-		Sound[] walkSounds = ConfigUtil.loadSounds(obj.get("walk"), Config.footsteps().getVolume());
-		Sound[] runSounds = ConfigUtil.loadSounds(obj.get("run"), Config.footsteps().getVolume());
-		Sound[] jumpSounds = ConfigUtil.loadSounds(obj.get("jump"), Config.footsteps().getVolume());
-		Sound[] landSounds = ConfigUtil.loadSounds(obj.get("land"), Config.footsteps().getVolume());
+		Sound[] wanderSounds = ConfigUtil.loadSounds(obj.get("wander"), Config.movement().getVolume());
+		Sound[] walkSounds = ConfigUtil.loadSounds(obj.get("walk"), Config.movement().getVolume());
+		Sound[] runSounds = ConfigUtil.loadSounds(obj.get("run"), Config.movement().getVolume());
+		Sound[] jumpSounds = ConfigUtil.loadSounds(obj.get("jump"), Config.movement().getVolume());
+		Sound[] landSounds = ConfigUtil.loadSounds(obj.get("land"), Config.movement().getVolume());
 		return new FSMaterial(id, wanderSounds, walkSounds, runSounds, jumpSounds, landSounds);
 	}
 	

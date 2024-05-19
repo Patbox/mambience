@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023 Andre Schweiger
+ * Copyright (c) 2024 Andre Schweiger
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,8 +24,6 @@ import me.andre111.mambience.MAmbienceFabric;
 import net.minecraft.network.packet.s2c.play.PlaySoundS2CPacket;
 import net.minecraft.network.packet.s2c.play.StopSoundS2CPacket;
 import net.minecraft.particle.ParticleEffect;
-import net.minecraft.particle.ParticleType;
-import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.entry.RegistryEntry;
@@ -91,9 +89,8 @@ public class AccessorFabricServer extends AccessorFabric {
 	@Override
 	public void addParticle(String type, String parameters, double x, double y, double z, double velocityX, double velocityY, double velocityZ) {
 		if(serverPlayer == null || serverPlayer.getWorld() == null) return;
-		
-		ParticleType<?> ptype = Registries.PARTICLE_TYPE.get(new Identifier(type));
-		ParticleEffect particle = getParticleEffect(ptype, " "+parameters);
+
+		ParticleEffect particle = getParticleEffect(type, parameters);
 		if(particle != null) {
 			serverPlayer.getServerWorld().spawnParticles(serverPlayer, particle, false, x, y, z, 0, velocityX, velocityY, velocityZ, 1);
 		}

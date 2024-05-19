@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023 Andre Schweiger
+ * Copyright (c) 2024 Andre Schweiger
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,12 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package me.andre111.mambience.footstep;
+package me.andre111.mambience.movement;
 
-public enum FSEvent {
-	WANDER,
-	WALK,
-	RUN,
-	JUMP,
-	LAND
-}
+import me.andre111.mambience.sound.Sound;
+
+public final record FSMaterial(String id, Sound[] wanderSounds, Sound[] walkSounds, Sound[] runSounds, Sound[] jumpSounds, Sound[] landSounds) {}

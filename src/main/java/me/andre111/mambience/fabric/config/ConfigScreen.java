@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023 Andre Schweiger
+ * Copyright (c) 2024 Andre Schweiger
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -68,16 +68,31 @@ public class ConfigScreen implements ModMenuApi {
 						.setSaveConsumer(i -> { Config.ambientEvents().setVolume(i/100.0f); })
 						.build())
 				.addEntry(entryBuilder
-						.startBooleanToggle(Text.translatable("mambience.config.ambient.stop"), Config.ambientEvents().isStopSounds())
+						.startBooleanToggle(Text.translatable("mambience.config.ambient.stop"), Config.ambientEvents().stopSounds())
 						.setTooltip(Text.translatable("mambience.config.ambient.stop.tooltip"))
 						.setDefaultValue(Config.AmbientEventsConfig.DEFAULT_STOP_SOUNDS)
 						.setSaveConsumer(Config.ambientEvents()::setStopSounds)
 						.build())
 				.addEntry(entryBuilder
-						.startBooleanToggle(Text.translatable("mambience.config.ambient.disable_wind"), Config.ambientEvents().isDisableWind())
+						.startBooleanToggle(Text.translatable("mambience.config.ambient.disable_wind"), Config.ambientEvents().disableWind())
 						.setTooltip(Text.translatable("mambience.config.ambient.disable_wind.tooltip"))
 						.setDefaultValue(Config.AmbientEventsConfig.DEFAULT_DISABLE_WIND)
 						.setSaveConsumer(Config.ambientEvents()::setDisableWind)
+						.build())
+				.addEntry(entryBuilder
+						.startBooleanToggle(Text.translatable("mambience.config.ambient.trigger.attack"), Config.ambientEvents().triggerAttackSounds())
+						.setDefaultValue(Config.AmbientEventsConfig.DEFAULT_TRIGGER_ATTACK_SOUNDS)
+						.setSaveConsumer(Config.ambientEvents()::setTriggerAttackSounds)
+						.build())
+				.addEntry(entryBuilder
+						.startBooleanToggle(Text.translatable("mambience.config.ambient.trigger.use"), Config.ambientEvents().triggerUseSounds())
+						.setDefaultValue(Config.AmbientEventsConfig.DEFAULT_TRIGGER_USE_SOUNDS)
+						.setSaveConsumer(Config.ambientEvents()::setTriggerUseSounds)
+						.build())
+				.addEntry(entryBuilder
+						.startBooleanToggle(Text.translatable("mambience.config.ambient.trigger.held_item"), Config.ambientEvents().triggerHeldItemSounds())
+						.setDefaultValue(Config.AmbientEventsConfig.DEFAULT_TRIGGER_HELD_ITEM_SOUNDS)
+						.setSaveConsumer(Config.ambientEvents()::setTriggerHeldItemSounds)
 						.build());
 			
 			// Visual Effects
@@ -122,17 +137,22 @@ public class ConfigScreen implements ModMenuApi {
 						.build());
 			
 			// Footsteps
-			builder.getOrCreateCategory(Text.translatable("mambience.config.footsteps"))
-				.addEntry(entryBuilder.startTextDescription(Text.translatable("mambience.config.footsteps.note")).build())
+			builder.getOrCreateCategory(Text.translatable("mambience.config.movement"))
+				.addEntry(entryBuilder.startTextDescription(Text.translatable("mambience.config.movement.note")).build())
 				.addEntry(entryBuilder
-						.startBooleanToggle(Text.translatable("mambience.config.enable"), Config.footsteps().isEnabled())
-						.setDefaultValue(Config.FootstepConfig.DEFAULT_ENABLED)
-						.setSaveConsumer(Config.footsteps()::setEnabled)
+						.startBooleanToggle(Text.translatable("mambience.config.movement.footsteps.enable"), Config.movement().footstepsEnabled())
+						.setDefaultValue(Config.MovementConfig.DEFAULT_FOOTSTEPS_ENABLED)
+						.setSaveConsumer(Config.movement()::setFootstepsEnabled)
 						.build())
 				.addEntry(entryBuilder
-						.startIntSlider(Text.translatable("mambience.config.volume"), (int) (Config.footsteps().getVolume()*100), 0, 100)
-						.setDefaultValue((int) (Config.FootstepConfig.DEFAULT_VOLUME*100))
-						.setSaveConsumer(i -> { Config.footsteps().setVolume(i/100.0f); })
+						.startBooleanToggle(Text.translatable("mambience.config.movement.armor.enable"), Config.movement().armorEnabled())
+						.setDefaultValue(Config.MovementConfig.DEFAULT_ARMOR_ENABLED)
+						.setSaveConsumer(Config.movement()::setArmorEnabled)
+						.build())
+				.addEntry(entryBuilder
+						.startIntSlider(Text.translatable("mambience.config.volume"), (int) (Config.movement().getVolume()*100), 0, 100)
+						.setDefaultValue((int) (Config.MovementConfig.DEFAULT_VOLUME*100))
+						.setSaveConsumer(i -> { Config.movement().setVolume(i/100.0f); })
 						.build())
 				.addEntry(entryBuilder
 						.startBooleanToggle(Text.translatable("mambience.config.apply_suggested"), Config.footsteps().isApplyingSuggested())
@@ -145,7 +165,7 @@ public class ConfigScreen implements ModMenuApi {
 				.addEntry(entryBuilder.startTextDescription(Text.translatable("mambience.config.scanner.note")).build())
 				.addEntry(entryBuilder
 						.startIntField(Text.translatable("mambience.config.sizex"), Config.scanner().getSizeX())
-						.setTooltip(Text.translatable("mambience.config.sizex.tooltip"))
+						.setTooltip(Text.translatable("mambience.config.size.tooltip"))
 						.setDefaultValue(Config.ScannerConfig.DEFAULT_SIZE_X)
 						.setMin(3)
 						.setMax(65)
@@ -153,7 +173,7 @@ public class ConfigScreen implements ModMenuApi {
 						.build())
 				.addEntry(entryBuilder
 						.startIntField(Text.translatable("mambience.config.sizey"), Config.scanner().getSizeY())
-						.setTooltip(Text.translatable("mambience.config.sizey.tooltip"))
+						.setTooltip(Text.translatable("mambience.config.size.tooltip"))
 						.setDefaultValue(Config.ScannerConfig.DEFAULT_SIZE_Y)
 						.setMin(3)
 						.setMax(65)
@@ -161,7 +181,7 @@ public class ConfigScreen implements ModMenuApi {
 						.build())
 				.addEntry(entryBuilder
 						.startIntField(Text.translatable("mambience.config.sizez"), Config.scanner().getSizeZ())
-						.setTooltip(Text.translatable("mambience.config.sizez.tooltip"))
+						.setTooltip(Text.translatable("mambience.config.size.tooltip"))
 						.setDefaultValue(Config.ScannerConfig.DEFAULT_SIZE_Z)
 						.setMin(3)
 						.setMax(65)
@@ -174,6 +194,30 @@ public class ConfigScreen implements ModMenuApi {
 						.setMin(1)
 						.setMax(200)
 						.setSaveConsumer(Config.scanner()::setInterval)
+						.build())
+				.addEntry(entryBuilder
+						.startIntField(Text.translatable("mambience.config.entitysizex"), Config.scanner().getEntitySizeX())
+						.setTooltip(Text.translatable("mambience.config.size.tooltip"))
+						.setDefaultValue(Config.ScannerConfig.DEFAULT_ENTITY_SIZE_X)
+						.setMin(3)
+						.setMax(65)
+						.setSaveConsumer(Config.scanner()::setEntitySizeX)
+						.build())
+				.addEntry(entryBuilder
+						.startIntField(Text.translatable("mambience.config.entitysizey"), Config.scanner().getEntitySizeY())
+						.setTooltip(Text.translatable("mambience.config.size.tooltip"))
+						.setDefaultValue(Config.ScannerConfig.DEFAULT_ENTITY_SIZE_Y)
+						.setMin(3)
+						.setMax(65)
+						.setSaveConsumer(Config.scanner()::setEntitySizeY)
+						.build())
+				.addEntry(entryBuilder
+						.startIntField(Text.translatable("mambience.config.entitysizez"), Config.scanner().getEntitySizeZ())
+						.setTooltip(Text.translatable("mambience.config.size.tooltip"))
+						.setDefaultValue(Config.ScannerConfig.DEFAULT_ENTITY_SIZE_Z)
+						.setMin(3)
+						.setMax(65)
+						.setSaveConsumer(Config.scanner()::setEntitySizeZ)
 						.build());
 
 			return builder.build();

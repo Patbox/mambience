@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023 Andre Schweiger
+ * Copyright (c) 2024 Andre Schweiger
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -80,7 +80,7 @@ public class MAmbienceBukkit extends JavaPlugin implements Listener {
 	public void onPlayerRegisterChannel(PlayerRegisterChannelEvent event) {
 		if(event.getChannel().equals("mambience:server")) {
 			// send notify payload (mambience:server channel with "enabled" message)
-			event.getPlayer().sendPluginMessage(this, "mambience:server", "enabled".getBytes());
+			event.getPlayer().sendPluginMessage(this, "mambience:server", new byte[] {1});
 		}
 	}
 

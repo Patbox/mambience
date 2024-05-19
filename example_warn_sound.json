@@ -1,0 +1,19 @@
+{
+    "sound": {
+        "name": "minecraft:block.note_block.banjo",
+        "volume": 100,
+        "pitchMin": 50,
+        "pitchMax": 50
+    },
+    "trigger": "SECOND",
+    "conditions": [
+        {
+            "condition": "ENTITY",
+            "entityOrTag": "minecraft:creeper",
+            "minCount": 1
+        }
+    ],
+    "restrictions": [],
+    "cooldownMin": 0,
+    "cooldownMax": 0
+}

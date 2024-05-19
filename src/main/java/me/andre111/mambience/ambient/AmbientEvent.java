@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023 Andre Schweiger
+ * Copyright (c) 2024 Andre Schweiger
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -49,7 +49,7 @@ public final record AmbientEvent(String id, Sound[] sounds, List<Condition> cond
 				}
 				setCooldown(maplayer);
 			}
-		} else if (Config.ambientEvents().isStopSounds() && maplayer.getCooldown(id) > 0 && isRestricted(maplayer)/*(so it doesn't get cut of in so many cases?)*/) {
+		} else if (Config.ambientEvents().stopSounds() && maplayer.getCooldown(id) > 0 && isRestricted(maplayer)/*(so it doesn't get cut of in so many cases?)*/) {
 			//TODO: needs fading in and out, sadly not possible with current protocol
 			//      for now disabled with config option to reenable, sound stopping without fadeout is just to abrupt
 			for(Sound sound : sounds) {

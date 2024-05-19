@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023 Andre Schweiger
+ * Copyright (c) 2024 Andre Schweiger
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -39,7 +39,7 @@ public final class Config {
 	private ScannerConfig scanner = new ScannerConfig();
 	private AmbientEventsConfig ambientEvents = new AmbientEventsConfig();
 	private EffectsConfig effects = new EffectsConfig();
-	private FootstepConfig footsteps = new FootstepConfig();
+	private MovementConfig footsteps = new MovementConfig();
 	
 	public static boolean debugLogging() {
 		return instance.debugLogging;
@@ -60,7 +60,7 @@ public final class Config {
 		return instance.effects;
 	}
 	
-	public static FootstepConfig footsteps() {
+	public static MovementConfig movement() {
 		return instance.footsteps;
 	}
 	
@@ -123,12 +123,18 @@ public final class Config {
 		public static final int DEFAULT_SIZE_Y = 9;
 		public static final int DEFAULT_SIZE_Z = 11;
 		public static final int DEFAULT_INTERVAL = 20;
-		
+		public static final int DEFAULT_ENTITY_SIZE_X = 33;
+		public static final int DEFAULT_ENTITY_SIZE_Y = 17;
+		public static final int DEFAULT_ENTITY_SIZE_Z = 33;
+
 		private int sizeX = DEFAULT_SIZE_X;
 		private int sizeY = DEFAULT_SIZE_Y;
 		private int sizeZ = DEFAULT_SIZE_X;
 		private int interval = DEFAULT_INTERVAL;
-		
+		private int entitySizeX = DEFAULT_ENTITY_SIZE_X;
+		private int entitySizeY = DEFAULT_ENTITY_SIZE_Y;
+		private int entitySizeZ = DEFAULT_ENTITY_SIZE_Z;
+
 		public int getSizeX() {
 			return sizeX;
 		}
@@ -153,18 +159,42 @@ public final class Config {
 		public void setInterval(int interval) {
 			this.interval = interval;
 		}
+		public int getEntitySizeX() {
+			return entitySizeX;
+		}
+		public void setEntitySizeX(int entitySizeX) {
+			this.entitySizeX = entitySizeX;
+		}
+		public int getEntitySizeY() {
+			return entitySizeY;
+		}
+		public void setEntitySizeY(int entitySizeY) {
+			this.entitySizeY = entitySizeY;
+		}
+		public int getEntitySizeZ() {
+			return entitySizeZ;
+		}
+		public void setEntitySizeZ(int entitySizeZ) {
+			this.entitySizeZ = entitySizeZ;
+		}
 	}
 	public static class AmbientEventsConfig {
 		public static final boolean DEFAULT_ENABLED = true;
 		public static final float DEFAULT_VOLUME = 0.4f;
 		public static final boolean DEFAULT_STOP_SOUNDS = false;
 		public static final boolean DEFAULT_DISABLE_WIND = false;
-		
+		public static final boolean DEFAULT_TRIGGER_ATTACK_SOUNDS = true;
+		public static final boolean DEFAULT_TRIGGER_USE_SOUNDS = true;
+		public static final boolean DEFAULT_TRIGGER_HELD_ITEM_SOUNDS = true;
+
 		private boolean enabled = DEFAULT_ENABLED;
 		private float volume = DEFAULT_VOLUME;
 		private boolean stopSounds = DEFAULT_STOP_SOUNDS;
 		private boolean disableWind = DEFAULT_DISABLE_WIND;
-		
+		private boolean triggerAttackSounds = DEFAULT_TRIGGER_ATTACK_SOUNDS;
+		private boolean triggerUseSounds = DEFAULT_TRIGGER_USE_SOUNDS;
+		private boolean triggerHeldItemSounds = DEFAULT_TRIGGER_HELD_ITEM_SOUNDS;
+
 		public boolean isEnabled() {
 			return enabled;
 		}
@@ -177,17 +207,35 @@ public final class Config {
 		public void setVolume(float volume) {
 			this.volume = volume;
 		}
-		public boolean isStopSounds() {
+		public boolean stopSounds() {
 			return stopSounds;
 		}
 		public void setStopSounds(boolean stopSounds) {
 			this.stopSounds = stopSounds;
 		}
-		public boolean isDisableWind() {
+		public boolean disableWind() {
 			return disableWind;
 		}
 		public void setDisableWind(boolean disableWind) {
 			this.disableWind = disableWind;
+		}
+		public boolean triggerAttackSounds() {
+			return triggerAttackSounds;
+		}
+		public void setTriggerAttackSounds(boolean triggerAttackSounds) {
+			this.triggerAttackSounds = triggerAttackSounds;
+		}
+		public boolean triggerUseSounds() {
+			return triggerUseSounds;
+		}
+		public void setTriggerUseSounds(boolean triggerUseSounds) {
+			this.triggerUseSounds = triggerUseSounds;
+		}
+		public boolean triggerHeldItemSounds() {
+			return triggerHeldItemSounds;
+		}
+		public void setTriggerHeldItemSounds(boolean triggerHeldItemSounds) {
+			this.triggerHeldItemSounds = triggerHeldItemSounds;
 		}
 	}
 	public static class EffectsConfig {
@@ -234,21 +282,28 @@ public final class Config {
 			this.randomTicks = randomTicks;
 		}
 	}
-	public static class FootstepConfig {
-		public static final boolean DEFAULT_ENABLED = true;
+	public static class MovementConfig {
+		public static final boolean DEFAULT_FOOTSTEPS_ENABLED = true;
+		public static final boolean DEFAULT_ARMOR_ENABLED = true;
 		public static final float DEFAULT_VOLUME = 0.3f;
-
 		public static final boolean DEFAULT_APPLY_SUGGESTIONS = true;
 
-		private boolean enabled = DEFAULT_ENABLED;
+		private boolean footstepsEnabled = DEFAULT_FOOTSTEPS_ENABLED;
+		private boolean armorEnabled = DEFAULT_FOOTSTEPS_ENABLED;
 		private float volume = DEFAULT_VOLUME;
 		private boolean applySuggestedSounds = DEFAULT_APPLY_SUGGESTIONS;
 
-		public boolean isEnabled() {
-			return enabled;
+		public boolean footstepsEnabled() {
+			return footstepsEnabled;
 		}
-		public void setEnabled(boolean enabled) {
-			this.enabled = enabled;
+		public void setFootstepsEnabled(boolean footstepsEnabled) {
+			this.footstepsEnabled = footstepsEnabled;
+		}
+		public boolean armorEnabled() {
+			return armorEnabled;
+		}
+		public void setArmorEnabled(boolean armorEnabled) {
+			this.armorEnabled = armorEnabled;
 		}
 		public float getVolume() {
 			return volume;

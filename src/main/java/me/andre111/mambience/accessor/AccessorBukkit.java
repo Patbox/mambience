@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023 Andre Schweiger
+ * Copyright (c) 2024 Andre Schweiger
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,9 +15,11 @@
  */
 package me.andre111.mambience.accessor;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -27,6 +29,8 @@ import org.bukkit.Particle;
 import org.bukkit.SoundCategory;
 import org.bukkit.Tag;
 import org.bukkit.block.Biome;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -135,10 +139,10 @@ public class AccessorBukkit extends Accessor {
 		//TODO: this is a limited implementation that requires custom code for every type - can this be solved any better?
 		switch(type) {
 		case "minecraft:block":
-			player.spawnParticle(Particle.BLOCK_CRACK, x, y, z, 0, velocityX, velocityY, velocityZ, 1, Bukkit.createBlockData(parameters));
+			player.spawnParticle(Particle.BLOCK, x, y, z, 0, velocityX, velocityY, velocityZ, 1, Bukkit.createBlockData(parameters));
 			break;
 		case "minecraft:item":
-			player.spawnParticle(Particle.ITEM_CRACK, x, y, z, 0, velocityX, velocityY, velocityZ, 1, new ItemStack(Bukkit.createBlockData(parameters).getMaterial()));
+			player.spawnParticle(Particle.ITEM, x, y, z, 0, velocityX, velocityY, velocityZ, 1, new ItemStack(Bukkit.createBlockData(parameters).getMaterial()));
 			break;
 		case "minecraft:flame":
 			player.spawnParticle(Particle.FLAME, x, y, z, 0, velocityX, velocityY, velocityZ, 1);
@@ -147,7 +151,7 @@ public class AccessorBukkit extends Accessor {
 			player.spawnParticle(Particle.LAVA, x, y, z, 0, velocityX, velocityY, velocityZ, 1);
 			break;
 		case "minecraft:smoke":
-			player.spawnParticle(Particle.SMOKE_NORMAL, x, y, z, 0, velocityX, velocityY, velocityZ, 1);
+			player.spawnParticle(Particle.SMOKE, x, y, z, 0, velocityX, velocityY, velocityZ, 1);
 			break;
 		case "minecraft:end_rod":
 			player.spawnParticle(Particle.END_ROD, x, y, z, 0, velocityX, velocityY, velocityZ, 1);
@@ -213,6 +217,12 @@ public class AccessorBukkit extends Accessor {
 		return player.getWorld().getTemperature(x, y, z);
 	}
 
+	@Override
+	public Stream<String> getEntities(double x, double y, double z, double xSize, double ySize, double zSize) {
+		Collection<Entity> entities = player.getWorld().getNearbyEntities(new Location(player.getWorld(), x, y, z), xSize/2.0, ySize/2.0, zSize/2.0);
+		return entities.stream().map(entity -> entity.getType().getKey().toString());
+	}
+
 	// Data related methods
 	@Override
 	public List<String> getBlockTag(String name) {
@@ -232,4 +242,9 @@ public class AccessorBukkit extends Accessor {
 		return tag != null ? tag.getValues().stream().map(m -> m.getKey().toString()).collect(Collectors.toList()) : List.of();
 	}
 
+	@Override
+	public List<String> getEntityTag(String name) {
+		Tag<EntityType> tag = Bukkit.getTag("entity_types", NamespacedKey.fromString(name), EntityType.class);
+		return tag != null ? tag.getValues().stream().map(m -> m.getKey().toString()).collect(Collectors.toList()) : List.of();
+	}
 }

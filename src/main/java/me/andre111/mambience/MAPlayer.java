@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023 Andre Schweiger
+ * Copyright (c) 2024 Andre Schweiger
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,17 +20,17 @@ import java.util.UUID;
 
 import me.andre111.mambience.accessor.Accessor;
 import me.andre111.mambience.config.Config;
-import me.andre111.mambience.footstep.Footsteps;
-import me.andre111.mambience.scan.BlockScanner;
+import me.andre111.mambience.movement.Movement;
+import me.andre111.mambience.scan.Scanner;
 import me.andre111.mambience.scan.Variables;
 import me.andre111.mambience.sound.SoundPlayer;
 
 public final class MAPlayer {
 	private final UUID playerUUID;
 	private final Accessor accessor;
-	private final BlockScanner scanner;
+	private final Scanner scanner;
 	private final Variables variables;
-	private final Footsteps footsteps;
+	private final Movement movement;
 	private final SoundPlayer soundPlayer;
 	private final MALogger logger;
 	private final HashMap<String, Integer> cooldowns;
@@ -38,9 +38,9 @@ public final class MAPlayer {
 	public MAPlayer(UUID playerUUID, Accessor accessor, MALogger logger) {
 		this.playerUUID = playerUUID;
 		this.accessor = accessor;
-		this.scanner = new BlockScanner(accessor, Config.scanner().getSizeX(), Config.scanner().getSizeY(), Config.scanner().getSizeZ());
+		this.scanner = new Scanner(accessor, Config.scanner().getSizeX(), Config.scanner().getSizeY(), Config.scanner().getSizeZ(), Config.scanner().getEntitySizeX(), Config.scanner().getEntitySizeY(), Config.scanner().getEntitySizeZ());
 		this.variables = new Variables(accessor, scanner);
-		this.footsteps = new Footsteps(this);
+		this.movement = new Movement(this);
 		this.soundPlayer = new SoundPlayer(accessor, logger);
 		this.logger = logger;
 		this.cooldowns = new HashMap<String, Integer>();
@@ -52,14 +52,14 @@ public final class MAPlayer {
 	public Accessor getAccessor() {
 		return accessor;
 	}
-	public BlockScanner getScanner() {
+	public Scanner getScanner() {
 		return scanner;
 	}
 	public Variables getVariables() {
 		return variables;
 	}
-	public Footsteps getFootsteps() {
-		return footsteps;
+	public Movement getMovement() {
+		return movement;
 	}
 	public SoundPlayer getSoundPlayer() {
 		return soundPlayer;

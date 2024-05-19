@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023 Andre Schweiger
+ * Copyright (c) 2024 Andre Schweiger
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,24 +20,31 @@ import java.util.Map;
 
 import me.andre111.mambience.accessor.Accessor;
 
-public final class BlockScanner {
+public final class Scanner {
 	private Accessor accessor;
 	private int xSize;
 	private int ySize;
 	private int zSize;
+	private int entityXSize;
+	private int entityYSize;
+	private int entityZSize;
 	private int currentYSize;
 	private Map<String, Integer> blockCount = new HashMap<>();
 	private Map<String, Integer> biomeCount = new HashMap<>();
+	private Map<String, Integer> entityCount = new HashMap<>();
 	private double averageSkyLight;
 	private double averageLight;
 	private double averageTemperature;
 	private long lastScan;
 	
-	public BlockScanner(Accessor a, int xs, int ys, int zs) {
+	public Scanner(Accessor a, int xs, int ys, int zs, int exs, int eys, int ezs) {
 		accessor = a;
 		xSize = xs;
 		ySize = ys;
 		zSize = zs;
+		entityXSize = exs;
+		entityYSize = eys;
+		entityZSize = ezs;
 		currentYSize = ySize;
 
 		resetScanData();
@@ -83,6 +90,10 @@ public final class BlockScanner {
 				averageTemperature += accessor.getTemperature(startX+xx, playerY, startZ+zz);
 			}
 		}
+		accessor.getEntities(accessor.getX(), accessor.getY(), accessor.getZ(), entityXSize, entityYSize, entityZSize).forEach(entity -> {
+			if(!entityCount.containsKey(entity)) entityCount.put(entity, 1);
+			else entityCount.put(entity, entityCount.get(entity)+1);
+		});
 
 		averageSkyLight /= getScanBlockCount();
 		averageLight /= getScanBlockCount();
@@ -93,6 +104,7 @@ public final class BlockScanner {
 	public void resetScanData() {
 		blockCount.clear();
 		biomeCount.clear();
+		entityCount.clear();
 		averageSkyLight = 0;
 		averageLight = 0;
 		averageTemperature = 0;
@@ -128,6 +140,9 @@ public final class BlockScanner {
 	}
 	public Map<String, Integer> getScanBiomeData() {
 		return biomeCount;
+	}
+	public Map<String, Integer> getScanEntityData() {
+		return entityCount;
 	}
 	public double getAverageSkyLight() {
 		return averageSkyLight;

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023 Andre Schweiger
+ * Copyright (c) 2024 Andre Schweiger
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,6 +18,7 @@ package me.andre111.mambience.condition;
 import java.util.Objects;
 
 import me.andre111.mambience.MAPlayer;
+import me.andre111.mambience.config.Config;
 
 public class ConditionVariableChanged extends Condition {
 	private final String variable;
@@ -30,6 +31,11 @@ public class ConditionVariableChanged extends Condition {
 
 	@Override
 	public boolean matches(MAPlayer player) {
+		//TODO: this works but is kind of weird at this location
+		if(variable.equals("itemMainHand") || variable.equals("itemOffHand")) {
+			if(!Config.ambientEvents().triggerHeldItemSounds()) return false;
+		}
+		
 		Object value = player.getVariables().get(variable);
 		Object previousValue = player.getVariables().getPrevious(variable);
 		

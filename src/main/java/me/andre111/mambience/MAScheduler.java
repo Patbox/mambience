@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023 Andre Schweiger
+ * Copyright (c) 2024 Andre Schweiger
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,14 +29,14 @@ import me.andre111.mambience.ambient.AmbientEvent;
 import me.andre111.mambience.config.Config;
 import me.andre111.mambience.data.loader.EventLoader;
 import me.andre111.mambience.effect.Effects;
-import me.andre111.mambience.scan.BlockScanner;
+import me.andre111.mambience.scan.Scanner;
 
 public class MAScheduler {
 	private MALogger logger;
 	
 	private long timer;
 	private Set<MAPlayer> players = new HashSet<>();
-	private Queue<BlockScanner> scannerQueue = new LinkedList<>();
+	private Queue<Scanner> scannerQueue = new LinkedList<>();
 
 	private boolean clearPlayers = false;
 	private List<MAPlayer> newPlayers = new ArrayList<>();
@@ -103,10 +103,8 @@ public class MAScheduler {
 				triggerEvents(maplayer, MATrigger.TICK);
 			}
 			
-			// update footsteps
-			if(Config.footsteps().isEnabled()) {
-				maplayer.getFootsteps().update();
-			}
+			// update movement
+			maplayer.getMovement().update();
 			
 			// update sound player
 			maplayer.getSoundPlayer().update();
@@ -127,7 +125,7 @@ public class MAScheduler {
 		int refreshed = 0;
 		int perTick = (int) Math.max(1, Math.ceil(players.size() / ((double) Config.scanner().getInterval()) * 1.5));
 		for(int i=0; i<perTick; i++) {
-			BlockScanner scanner = scannerQueue.poll();
+			Scanner scanner = scannerQueue.poll();
 			if(scanner!=null) {
 				scanner.performScan();
 				scanner.setLastScan(timer);
@@ -171,6 +169,18 @@ public class MAScheduler {
 	}
 	
 	public void triggerEvents(MAPlayer maplayer, String trigger) {
+		// do not trigger disabled events
+		if(!Config.ambientEvents().triggerAttackSounds()) {
+			if(trigger.equals(MATrigger.ATTACK_SWING)) return;
+			if(trigger.equals(MATrigger.ATTACK_BLOCK)) return;
+			if(trigger.equals(MATrigger.ATTACK_HIT)) return;
+		}
+		if(!Config.ambientEvents().triggerUseSounds()) {
+			if(trigger.equals(MATrigger.USE_ITEM_MAINHAND)) return;
+			if(trigger.equals(MATrigger.USE_ITEM_OFFHAND)) return;
+		}
+		
+		// trigger events
 		for(AmbientEvent event : EventLoader.getEvents(trigger)) {
 			event.update(maplayer);
 		}
